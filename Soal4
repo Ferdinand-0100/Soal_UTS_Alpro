@@ -1,1 +1,71 @@
-//Kerjakan soal nomor 4 disini (Hapus komentar ini)
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int n; cin >> n;
+    string s; cin >> s;
+    
+    int count = 1;
+    int poinA = 0, poinB = 0;
+
+    char reference = s[0];
+    if (reference == 'A') {poinA+=3;}
+    else {poinB+=3;}
+
+    for (int i=1; i<n; i++) {
+        if (s[i]=='A') {poinA+=3;}
+        else {poinB+=3;}
+
+        if (s[i] == reference) {
+            count++;
+        } else {
+            count = 1;
+            reference = s[i];
+        }
+
+        if (count==3) {
+            if (reference == 'A') {poinA+=2;}
+            else {poinB+=2;}
+            count=0;
+        }
+    }
+
+    cout << "Poin A: " << poinA << endl;
+    cout << "Poin B: " << poinB << endl;
+    cout << ((poinA > poinB) ? "Pemenangnya adalah pemain A" :
+            (poinB > poinA) ? "Pemenangnya adalah pemain B" :
+            "Hasil pertandingan Seri!");
+}
+
+//PENJELASAN KODE
+
+/*
+    Kita perlu variable count karena jika pemain menang 3 kali berturut-turut akan dapet bonus
+    Kita butuh variable reference untuk mengecek menang berturut-turut ini
+
+    Dan karena itu juga kita akan loop bukan dari char pertama, tapi kedua karena yang pertama sudah kita jadikan reference
+    karena itu jugalah count mulai dari 1, bukan 0
+
+    Kita berikan poin dari awal (diantara A dapet 3 atau B) karena si reference juga
+
+    Lalu kita tinggal cek satu-satu dengan for loop (dari yang kedua, ingat karena reference)
+
+    if (s[i] == reference) {
+            count++;
+        } else {
+            count = 1;
+            reference = s[i];
+    }
+    Dipakai untuk ngecek apakah orang yang menang sama (bandingkan dengan si reference)
+    Jika sama, count akan ditambah 1 (nanti dipakai untuk bonus)
+    Jika tidak maka reset count ke 1 (1 karena dia sendiri terhitung) lalu ganti referencenya ke yang terbaru (yang beda ini)
+
+    if (count==3) {
+            if (reference == 'A') {poinA+=2;}
+            else {poinB+=2;}
+            count=0;
+    }
+    Jika count sudah 3 berarti player yang sama menang 3 kali berturut-turut, jika A maka dia yang dapat +2, jika enggak berarti B yang dapat
+
+    Lalu tinggal output hasil poin tiap player, dan pakai ternary untuk menentukan siapa yang menang atau jika seri
+*/
