@@ -1,1 +1,93 @@
-//Kerjakan soal nomor 3 disini (Hapus komentar ini)
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	string kode; 
+    cout << "Masukkan kode transaksi (8 digit): "; cin >> kode;
+    
+    if (kode[0]!='0' || kode[2]!='0' || kode[1]>'3' || kode[1]<'1' || kode[3]>'3' || kode[3]<'1') {
+        cout << "Kode tidak valid!";
+    } 
+    else {
+        int kelipatan = stoi(kode);
+        kelipatan %= 10000;
+
+        string hari, pelanggan;
+        long long belanja = kelipatan*100000, poin;
+
+        if (kode[1]=='1') {
+            hari = "Hari Kerja";
+            switch (kode[3]) {
+                case '1':
+                    pelanggan = "Biasa";
+                    poin = kelipatan*1;
+                    break;
+                case '2':
+                    pelanggan = "Silver";
+                    poin = kelipatan*2;
+                    break;
+                case '3':
+                    pelanggan = "Gold";
+                    poin = kelipatan*3;
+                    break;
+            }
+        } else if (kode[1]=='2') {
+            hari = "Akhir Pekan";
+            switch (kode[3]) {
+                case '1':
+                    pelanggan = "Biasa";
+                    poin = kelipatan*2;
+                    break;
+                case '2':
+                    pelanggan = "Silver";
+                    poin = kelipatan*3;
+                    break;
+                case '3':
+                    pelanggan = "Gold";
+                    poin = kelipatan*5;
+                    break;
+            }
+        } else {
+            hari = "Hari Libur Nasional";
+            switch (kode[3]) {
+                case '1':
+                    pelanggan = "Biasa";
+                    poin = kelipatan*3;
+                    break;
+                case '2':
+                    pelanggan = "Silver";
+                    poin = kelipatan*5;
+                    break;
+                case '3':
+                    pelanggan = "Gold";
+                    poin = kelipatan*7;
+                    break;
+            }
+        }
+
+        cout << "Jenis Hari: " << hari << endl;
+        cout << "Jenis Pelangga: " << pelanggan << endl;
+        cout << "Jumlah Belanja: Rp " << belanja << endl;
+        cout << "Total Poin: " << poin;
+    }
+}
+
+//PENJELASAN KODE
+
+/*
+    Pertama kita masukkan kode dalam bentuk string agar lebih mudah diproses
+
+    Karena kita diminta "mengecek keabsahan kode", kita perlu:
+    if (kode[0]!='0' || kode[2]!='0' || kode[1]>'3' || kode[1]<'1' || kode[3]>'3' || kode[3]<'1') {
+    (Disini kita pakai ASCII tiap kode untuk ngecek apakah dia diluar batas, misalnya kode hari/loyalitas cuma sampai 3)
+
+    int kelipatan = stoi(kode);
+    kelipatan %= 10000;
+    (Ini dipakai untuk dapet kode kelipatan pembelian yang tiap 100.000, %=10000 dipakai karena kita cuma perlu 4 digit terakhir)
+
+    Untuk variabel "belanja" dan "poin" kita pakai long long untuk jaga-jaga angkanya kebesaran
+
+    Sisanya kita tinggal cek kodenya satu-satu pakai if else untuk kode pertama (hari) dan switch-case untuk loyalitas
+
+    Lalu terakhir tinggal output semua hasil kalkulasi kita
+*/
