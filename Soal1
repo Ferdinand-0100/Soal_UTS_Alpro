@@ -1,1 +1,70 @@
-//Kerjakan soal nomor 1 disini (Hapus komentar ini)
+#include <iostream>
+#include <string>
+using namespace std;
+
+int hitungPanjang ( const string & s ){
+    int i = 0;
+    while (s[i]) i++;
+    return i;
+}
+
+bool validasiNusantara(const string & nomor) {
+    int total = 0, panjang = hitungPanjang (nomor);
+
+    for (int i = panjang - 1; i >= 0; i--) {
+        int digit = (nomor[i] - '0');
+        if ((panjang - i) % 2 == 0){
+            digit *= 2;
+            if (digit > 9) digit -= 9;
+        }
+        total += digit;
+    }
+    return (total % 10 == 0);
+}
+
+int main() {
+    string nomor;
+    cout << "Masukkan nomor kartu digital: ";
+    cin >> nomor;
+
+    int panjang = hitungPanjang(nomor);
+    string tipe = "TIDAK DIKETAHUI";
+    bool valid = false;
+
+    if (panjang == 14 && nomor[0] == '6' && nomor[1] == '5') {
+       tipe =  "NUSANTARA";
+        valid = validasiNusantara(nomor);
+    } else if (panjang == 16 && ((nomor[0]== '7' && nomor[1] == '7') || (nomor[0] == '7' && nomor[1] == '8'))) {
+        tipe = "GARUDA";
+        valid = validasiNusantara(nomor);
+    } else if (panjang == 15 && nomor[0] == '9'&& nomor [1] == '1') {
+        tipe = "MERDEKA";
+        valid = validasiNusantara(nomor);
+    }
+
+    cout << "Tipe kartu: " << tipe << endl;
+    cout << "Nomor kartu " << (valid ? "VALID" : "TIDAK VALID") << endl;
+
+    return 0;
+}
+
+//PENJELASAN KODE 
+/* Masukkan kode dalam bentuk string agar lebih mudah di proses 
+    Lalu pada algoritma validasi nusantara menghitungnya mulai dari dua digit belakang digitnya dikalikan selang-seling
+    setelah itu jika hasil kali nya > 9 maka digitnya dijumlahkan. ini code perhitungannya 
+
+    for (int i = panjang - 1; i >= 0; i--) {
+        int digit = (nomor[i] - '0');
+        if ((panjang - i) % 2 == 0){
+            digit *= 2;
+            if (digit > 9) digit -= 9;
+        }
+        total += digit;
+    }
+    return (total % 10 == 0);
+}
+
+    lalu masuk ke main untuk meminta user minginput nomor digital
+    setelah itu mengecek tipe kartu berdasarkan panjang digitnya menggunakan if.
+    jika cocok, maka akan berlanjut ke cek validitas nomornya.
+*/
