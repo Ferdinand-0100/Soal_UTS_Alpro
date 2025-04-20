@@ -1,1 +1,83 @@
-//Kerjakan soal nomor 2 disini (Hapus komentar ini)
+#include <iostream>
+#include <string>
+#include <iomanip>  
+using namespace std;
+
+int hhmmToMinutes(int hhmm) {
+    int jam = hhmm / 100;
+    int menit = hhmm % 100;
+    return jam * 60 + menit;
+}
+
+
+int hitungDurasiJam(int masuk, int keluar) {
+    int durasi = keluar - masuk;
+    return (durasi + 59) / 60; 
+}
+
+string tolower(string str) {
+    for (char &c : str) c = tolower(c);
+    return str;
+}
+
+int hitungBiaya(string jenis, int durasi) {
+    jenis = tolower (jenis);
+    if (jenis == "mobil pribadi") {
+        return (durasi == 1) ? 5000 : 5000 + (durasi - 1) * 3000;
+    } else if (jenis == "motor") {
+        return (durasi == 1) ? 3000 : 3000 + (durasi - 1) * 2000;
+    } else if (jenis == "bus") {
+        return (durasi == 1) ? 10000 : 10000 + (durasi - 1) * 7000;
+    }
+    return 0;
+}
+
+int main() {
+    string kodeParkir;
+    int jamKeluar;
+
+    cout << "Masukkan kode parkir digital: ";
+    cin >> kodeParkir;
+    cout << "Masukkan jam keluar: ";
+    cin >> jamKeluar;
+
+    int jenisKendaraan = stoi(kodeParkir.substr(0, 2));
+    int jamMasuk = stoi(kodeParkir.substr(2, 4));
+    string lokasi = kodeParkir.substr(6, 4);
+
+    string jenisstr;
+    switch (jenisKendaraan) {
+        case 10: jenisstr = "Mobil pribadi"; break;
+        case 20: jenisstr = "Motor"; break;
+        case 30: jenisstr = "Bus"; break;
+        default: jenisstr = "Tidak diketahui"; break;
+    }
+
+    int menitMasuk = hhmmToMinutes(jamMasuk);
+    int menitKeluar = hhmmToMinutes(jamKeluar);
+    int durasiJam = hitungDurasiJam(menitMasuk, menitKeluar);
+    int biaya = hitungBiaya(jenisstr, durasiJam);
+
+    cout << "\n--- Ringkasan Parkir ---" << endl;
+    cout << "Jenis kendaraan: " << jenisstr << endl;
+    cout << "Waktu masuk: " << setfill('0') << setw(2) << jamMasuk / 100 << ":" << setw(2) << jamMasuk %100<< endl;
+    cout << "Waktu keluar: " << setfill('0') << setw(2) << jamKeluar / 100 << ":" << setw(2) << jamMasuk %100 << endl;
+    cout << "Durasi parkir: " << durasiJam << " jam" << endl;
+    cout << "Lokasi parkir: " << lokasi << endl;
+    cout << "Total biaya: Rp." << biaya << endl;
+
+    return 0;
+}
+
+//PENJELASAN KODE 
+/*  Program ini digunakan untuk menerima kode parkir digital da jam keluar pengguna.
+    pertama mengkoversi jam menit (HHMM). 
+    Setelah itu menghitung durasi parkir dengan menghitung selisih jam antara masuk dan keluar.
+    lalu menggunakan sting tolower agara semua huruf di string m enjadi huruf kecil.
+    kemudian menghitung biaya parkir menggunakan if, else- if karena ada lebih dari satu kendaraan.
+    masuk ke main program.
+    setalah itu kode parkir,jam masuk, dan lokasi akan diambil dengan menggunakan stoi(mengubah string ke bentuk integer) dan substr
+    lalu dari inputan kode sblmnya akan terbaca jenis kendaraan yg kita masukkan dan jika kita input selain kode yg ditentukan maka akan muncul 'tidak diketahui'.
+    lalu akan dihitung durasi dan biaya nya. dan terakhir akan muncul hasil dari semua yg sudah kita input tadi.
+    setfill dan setw untuk outputnya lebih rapi.
+*/
